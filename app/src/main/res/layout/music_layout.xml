@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bluee">
+
+        <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           >
+
+           <ImageView
+               android:id="@+id/music_logo"
+               android:layout_width="50dp"
+               android:layout_height="50dp"
+               android:padding="15dp"
+               android:src="@drawable/music_note_2_svgrepo_com"
+               android:background="@color/bluee"/>
+
+           <TextView
+               android:id="@+id/music_title"
+               android:layout_width="match_parent"
+               android:layout_height="50dp"
+               android:gravity="center_vertical"
+               android:text="Music"
+               android:textColor="@color/bluee"
+               android:padding="10dp"
+               android:maxLines="1"
+               android:ellipsize="end"
+               />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>

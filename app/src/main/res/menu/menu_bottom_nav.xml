@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/Images"
+        android:title="IMAGES"
+        android:icon="@drawable/image_picture_svgrepo_com"
+        />
+    <item
+        android:id="@+id/Videos"
+        android:title="VIDEOS"
+        android:icon="@drawable/video_file_svgrepo_com"
+        />
+    <item
+        android:title=""
+        android:enabled="true"/>
+    <item
+        android:id="@+id/Music"
+        android:title="MUSIC"
+        android:icon="@drawable/music_file_8_svgrepo_com"
+        />
+    <item
+        android:id="@+id/Pdfs"
+        android:title="PDFs"
+         android:icon="@drawable/pdf_file_svgrepo_com"
+        />
+
+</menu>
