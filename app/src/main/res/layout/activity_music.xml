@@ -16,6 +16,7 @@
         android:textColor="@color/bluee"
         android:layout_margin="22dp"
         android:padding="20dp"
+        android:textSize="25dp"
         />
 
     <ImageView
@@ -49,11 +50,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/seek_bar"
-            android:text="0:10"
             android:layout_alignParentStart="true"
-            android:layout_margin="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="0:10"
             android:textColor="@color/black"
-            android:textSize="25sp"/>
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/song_end"
@@ -64,7 +68,7 @@
             android:layout_alignParentEnd="true"
             android:layout_margin="20dp"
             android:textColor="@color/black"
-            android:textSize="25sp"/>
+            android:textSize="20sp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -77,17 +81,16 @@
                 android:id="@+id/previous"
                 android:src="@drawable/previous"
                 android:layout_alignParentStart="true"
-                android:layout_margin="25dp"
+                android:layout_margin="30dp"
                 />
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
                 android:id="@+id/pauseplay"
                 android:layout_centerInParent="true"
                 android:src="@drawable/pause"
-                android:layout_margin="25dp"
-
+                android:layout_margin="30dp"
                 />
 
             <ImageView
@@ -96,7 +99,7 @@
                 android:id="@+id/next"
                 android:src="@drawable/next"
                 android:layout_alignParentEnd="true"
-                android:layout_margin="25dp"
+                android:layout_margin="30dp"
                 />
 
         </RelativeLayout>

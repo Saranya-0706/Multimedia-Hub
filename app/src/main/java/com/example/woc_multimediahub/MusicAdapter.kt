@@ -30,13 +30,19 @@ class MusicAdapter(private var context:Context?, private var musicList:ArrayList
     override fun onBindViewHolder(holder: MusicViewHolder, position: Int) {
         val currentMusic = musicList[position]
         val FileName = currentMusic.musicName
+        val filepath = currentMusic.musicPath
+        val dur = currentMusic.musicDuration
         holder.musicFileName?.text = FileName
 
         holder.musicFileName!!.setOnClickListener {
             val intent = Intent(context, musicActivity::class.java)
-            intent.putExtra("list", musicList)
+            intent.putParcelableArrayListExtra("list", musicList)
                 .putExtra("songname",FileName)
                 .putExtra("path",position)
+                .putExtra("duration",dur)
+                .putExtra("filepath",filepath)
+                .putExtra("size",musicList.size)
+
             context!!.startActivity(intent)
 
         }
