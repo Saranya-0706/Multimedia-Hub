@@ -6,7 +6,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="105dp"
+        android:layout_height="120dp"
         android:id="@+id/row_img"
         android:src="@mipmap/ic_launcher"
         android:layout_margin="1.5dp"/>

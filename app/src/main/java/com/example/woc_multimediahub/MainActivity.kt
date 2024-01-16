@@ -1,8 +1,12 @@
 package com.example.woc_multimediahub
 
 import android.Manifest
+import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import android.provider.Settings
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
@@ -17,10 +21,15 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.woc_multimediahub.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 import com.karumi.dexter.Dexter
+import com.karumi.dexter.DexterBuilder
+import com.karumi.dexter.DexterBuilder.SinglePermissionListener
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.karumi.dexter.listener.single.PermissionListener
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -40,6 +49,47 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         binding.navDrawer.setNavigationItemSelectedListener(this)
+        runTimePermissions()
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.R){
+            if(!Environment.isExternalStorageManager()){
+                val intent = Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
+                startActivity(intent)
+            }
+        }
+    }
+
+    fun runTimePermissions()
+    {
+            Dexter.withContext(this).withPermissions(
+                Manifest.permission.READ_MEDIA_AUDIO,
+                Manifest.permission.READ_MEDIA_IMAGES,
+                Manifest.permission.READ_MEDIA_VIDEO
+            )
+            .withListener(object : MultiplePermissionsListener{
+                override fun onPermissionsChecked(p0: MultiplePermissionsReport?) {
+                    if (p0!!.areAllPermissionsGranted()){
+                        Toast.makeText(this@MainActivity, "Permissions Granted",Toast.LENGTH_SHORT).show()
+                        continueCode()
+                    }
+                    else{
+                        Toast.makeText(this@MainActivity,"Please grant all permissions...Close the app and start again",Toast.LENGTH_SHORT).show()
+
+                    }
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    p0: MutableList<PermissionRequest>?,
+                    p1: PermissionToken?
+                ) {
+                    p1!!.continuePermissionRequest()
+                }
+            }).check()
+    }
+
+
+
+    fun continueCode()
+    {
 
         binding.bottomNav.background=null
         binding.bottomNav.setOnItemSelectedListener { item ->
@@ -55,11 +105,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         replaceFragment(ImageFragment())
 
         binding.fab.setOnClickListener {
-        Toast.makeText(this, "ADD", Toast.LENGTH_SHORT).show()}
+            Toast.makeText(this, "ADD", Toast.LENGTH_SHORT).show()}
 
     }
-
-
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId)

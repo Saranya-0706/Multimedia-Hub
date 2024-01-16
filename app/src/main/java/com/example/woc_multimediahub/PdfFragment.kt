@@ -50,7 +50,7 @@ class PdfFragment : Fragment(R.layout.fragment_pdf) {
 
         private fun pdffiles():ArrayList<pdf>? {
             val pdfFiles = ArrayList<pdf>()
-            val allFilesUri = MediaStore.Files.getContentUri("pdf")
+            val allFilesUri = MediaStore.Files.getContentUri("external")
             val proj =
                 arrayOf(
                     MediaStore.Files.FileColumns.DATA,

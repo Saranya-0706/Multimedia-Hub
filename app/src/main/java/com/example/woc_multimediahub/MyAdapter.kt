@@ -1,6 +1,7 @@
 package com.example.woc_multimediahub
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,10 +34,16 @@ class MyAdapter( private var context: Context?, private var pdfList: ArrayList<p
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentPdf = pdfList[position]
         val fileName= currentPdf.pdfName
+        val filePath = currentPdf.pdfPath
         holder.filename.text = fileName
 
+        holder.filename.setOnClickListener {
+            val intent = Intent(context,pdfActivity::class.java)
+            intent.putExtra("path",filePath)
+            intent.putExtra("name",fileName)
+            context!!.startActivity(intent)
+        }
+
     }
-
-
 
 }

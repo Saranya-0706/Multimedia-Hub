@@ -3,41 +3,45 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp"
+        android:layout_margin="2dp"
         android:elevation="8dp"
         app:cardCornerRadius="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="5dp">
+           >
 
             <ImageView
                 android:id="@+id/pdfimage"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/pdf_file_svgrepo_com__1_"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginEnd="5dp"/>
+                android:padding="15dp"
+                android:src="@drawable/pdf1"
+                android:background="@color/bluee"
+                />
 
             <TextView
                 android:id="@+id/textName"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_margin="5dp"
-                android:gravity="center"
+                android:padding="10dp"
+                android:gravity="center_vertical"
                 android:text="File Name"
-                android:textSize="20sp"
                 android:textColor="@color/black"
-                android:padding="5dp"/>
+                android:singleLine="true"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+
+                />
 
         </LinearLayout>
 

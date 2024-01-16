@@ -12,9 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -29,9 +26,9 @@
                 android:id="@+id/bottomAppBar"
                 android:layout_gravity="bottom"
                 android:backgroundTint="@color/bluee"
-                app:fabCradleMargin="12dp"
+                app:fabCradleMargin="10dp"
 
-                app:fabCradleRoundedCornerRadius="50dp"
+                app:fabCradleRoundedCornerRadius="20dp"
                 app:fabAlignmentMode="center">
 
                 <com.google.android.material.bottomnavigation.BottomNavigationView

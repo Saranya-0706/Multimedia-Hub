@@ -52,4 +52,9 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.karumi:dexter:6.2.3")
+    implementation("androidx.media3:media3-exoplayer:1.2.0")
+    implementation("androidx.media3:media3-exoplayer-dash:1.2.0")
+    implementation("androidx.media3:media3-ui:1.2.0")
+    implementation("com.github.barteksc:android-pdf-viewer:2.8.2")
+
 }
