@@ -18,7 +18,7 @@ class pdfActivity : AppCompatActivity() {
         val pdfPath = intent.getStringExtra("path")
         val pdfName = intent.getStringExtra("name")
 
-        //supportActionBar?.title = pdfName
+        supportActionBar?.title = pdfName
         var pdfView :PDFView = binding.PDFviewer
         var file = File(pdfPath)
         pdfView.fromFile(file)

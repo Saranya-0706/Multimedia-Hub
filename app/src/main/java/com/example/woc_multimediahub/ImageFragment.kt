@@ -69,6 +69,7 @@ class ImageFragment : Fragment() {
         imageRecycler?.layoutManager=GridLayoutManager(context, 3)
         imageRecycler?.setHasFixedSize(true)
 
+
         allPics= ArrayList()
         if(allPics!!.isEmpty())
         {

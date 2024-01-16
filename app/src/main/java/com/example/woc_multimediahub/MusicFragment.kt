@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.util.Locale
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,6 +30,8 @@ class MusicFragment : Fragment() {
 
     private var musicRecycler: RecyclerView?=null
     private var allMusic:ArrayList<music>?=null
+    private var searchmusic : SearchView?=null
+    private var tempList:ArrayList<music>?=null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,19 +73,61 @@ class MusicFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        searchmusic = view.findViewById(R.id.searchMusic)
         musicRecycler=view.findViewById(R.id.music_recycler)
         musicRecycler?.layoutManager = LinearLayoutManager(context)
         musicRecycler?.setHasFixedSize(true)
 
         allMusic= ArrayList()
-        if(allMusic!!.isEmpty())
+        tempList = ArrayList()
+        if(tempList!!.isEmpty())
         {
             allMusic = allMusic()
+            tempList = allMusic()
 
-            musicRecycler?.adapter=MusicAdapter(context, allMusic!!)
+            musicRecycler?.adapter=MusicAdapter(context, tempList!!)
         }
 
+        searchmusic?.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
 
+            override fun onQueryTextChange(newText: String?): Boolean {
+
+                tempList?.clear()
+                val searchText = newText!!.toLowerCase(Locale.getDefault())
+
+                if (searchText.isNotEmpty()){
+                    for (item in allMusic!!)
+                    {
+                        if (item.musicName?.toLowerCase(Locale.getDefault())!!.contains(searchText))
+                        {
+                            tempList!!.add(item)
+                        }
+                    }
+                    musicRecycler?.adapter?.notifyDataSetChanged()
+                }else{
+                    tempList?.clear()
+                    for (item in allMusic!!)
+                    {
+                        tempList!!.add(item)
+                    }
+                    musicRecycler?.adapter?.notifyDataSetChanged()
+                }
+                return false
+            }
+
+        })
+
+        searchmusic!!.setOnCloseListener{
+            for (item in allMusic!!)
+            {
+                tempList!!.add(item)
+            }
+            musicRecycler?.adapter?.notifyDataSetChanged()
+            false
+        }
 
     }
 
