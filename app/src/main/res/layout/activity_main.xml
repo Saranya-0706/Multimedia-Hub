@@ -27,8 +27,7 @@
                 android:id="@+id/bottomAppBar"
                 android:layout_gravity="bottom"
                 android:backgroundTint="@color/bluee"
-                app:fabCradleMargin="10dp"
-
+                app:fabCradleMargin="6dp"
                 app:fabCradleRoundedCornerRadius="20dp"
                 app:fabAlignmentMode="center">
 
