@@ -40,7 +40,6 @@ class MusicAdapter(private var context:Context?, private var musicList:ArrayList
                 .putExtra("songname",FileName)
                 .putExtra("path",position)
                 .putExtra("duration",dur)
-                .putExtra("filepath",filepath)
                 .putExtra("size",musicList.size)
 
             context!!.startActivity(intent)

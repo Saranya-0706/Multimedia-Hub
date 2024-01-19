@@ -8,24 +8,30 @@ import android.os.Handler
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
 import com.example.woc_multimediahub.databinding.ActivityMusicBinding
 import kotlinx.coroutines.Runnable
 
 class musicActivity : AppCompatActivity() {
 
+    private lateinit var player: ExoPlayer
+    private lateinit var handler:Handler
     private var title:TextView?=null
-    private var currentTime:TextView?=null
-    private var totalTime:TextView?=null
-    private var seekBar:SeekBar?=null
+    private var backBtn:ImageView?=null
     private var pauseplay:ImageView?=null
     private var nextB:ImageView?=null
     private var prevB:ImageView?=null
     private var musicIcon:ImageView?=null
+    private var forward: ImageView?=null
+    private var rewind: ImageView?=null
+    private var currentTime:TextView?=null
+    private var totalTime:TextView?=null
     private lateinit var binding: ActivityMusicBinding
     private var songsList:ArrayList<music>?=null
-   var mediaPlayer = MediaPlayer()
-    var songName:String?=null
-    var position:Int?=null
+    private var songName:String?=null
+    private var seekBar:SeekBar?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,54 +40,85 @@ class musicActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         title = binding.songTitle
-        currentTime = binding.songStart
-        totalTime = binding.songEnd
-        seekBar = binding.seekBar
-        pauseplay = binding.pauseplay
-        nextB = binding.next
-        prevB = binding.previous
+        backBtn= binding.AudioBack
+        pauseplay = binding.pauseplayAudio
+        nextB = binding.nextAudio
+        prevB = binding.prevAudio
         musicIcon = binding.musicIcon
+        forward = binding.ForwardAudio
+        rewind = binding.RewindAudio
+        seekBar = binding.SeekBar
+        currentTime=binding.currentPosition
+        totalTime=binding.totalDuration
+        handler= Handler()
+        player = ExoPlayer.Builder(this).build()
 
 
         songsList = intent.getParcelableArrayListExtra("list")
         songName = intent.getStringExtra("songname")
-        position = intent.getIntExtra("path", 0)
         title!!.text = songName
-        val file = intent.getStringExtra("filepath")
-        val size = intent.getIntExtra("size",101)
 
-        mediaPlayer.reset()
-        try {
-            mediaPlayer.setDataSource(file)
-            mediaPlayer.prepare()
-            mediaPlayer.start()
+        var position = intent.getIntExtra("path", 0)
+        val size = intent.getIntExtra("size", 101)
 
-        }catch (e:Exception){
-            e.printStackTrace()
-        }
+        val filePath = songsList!![position].musicPath
+        val MediaItem = MediaItem.fromUri(filePath!!)
+        player.setMediaItem(MediaItem)
+        player.prepare()
+        player.play()
 
-        val updateSeekBar = Thread(Runnable {
-            var currentPosition = 0
-            val totalDuration = mediaPlayer.duration
-            while (currentPosition < totalDuration){
-                try {
-                    Thread.sleep(500)
-                    currentPosition = mediaPlayer.currentPosition
-                    seekBar!!.progress = currentPosition
-                   currentTime!!.text= Time(mediaPlayer.currentPosition)
-                    totalTime!!.text = Time(mediaPlayer.duration)
 
-                }
-                catch (e:Exception)
-                {
-                    e.printStackTrace()
+            pauseplay!!.setOnClickListener {
+                if (player.isPlaying) {
+                    pauseplay!!.setBackgroundResource(R.drawable.playblack)
+                    player.pause()
+                } else {
+                    pauseplay!!.setBackgroundResource(R.drawable.pauseblack)
+                    player.play()
                 }
             }
-        })
-        seekBar!!.max = mediaPlayer.duration
-        updateSeekBar.start()
 
 
+            prevB!!.setOnClickListener{
+                pauseplay!!.setBackgroundResource(R.drawable.pauseblack)
+                player.stop()
+                position = if ((position!! - 1) < 0)
+                    (size - 1)
+                else
+                    (position!! - 1)
+                val filePath = songsList!![position].musicPath
+                title!!.text= songsList!![position].musicName
+                val MediaItem = androidx.media3.common.MediaItem.fromUri(filePath!!)
+                player.setMediaItem(MediaItem)
+                player.prepare()
+                player.play()
+            }
+
+            nextB!!.setOnClickListener{
+                pauseplay!!.setBackgroundResource(R.drawable.pauseblack)
+                player.stop()
+               position = if ((position!!) < size - 1)
+                    (position!! + 1)
+                else
+                    0
+                val filePath = songsList!![position].musicPath
+                title!!.text= songsList!![position].musicName
+                val MediaItem = androidx.media3.common.MediaItem.fromUri(filePath!!)
+                player.setMediaItem(MediaItem)
+                player.prepare()
+                player.play()
+            }
+
+        val handler = Handler()
+        val updateProgressRunnable:Runnable = object :Runnable{
+            override fun run() {
+                updateSeekBar()
+                handler.postDelayed(this,1000L)
+            }
+
+        }
+        handler.postDelayed(updateProgressRunnable,1000L)
+        seekBar!!.max = player.duration.toInt()
 
         seekBar!!.setOnSeekBarChangeListener(object :SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -89,77 +126,72 @@ class musicActivity : AppCompatActivity() {
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
-
+                handler.removeCallbacks(updateProgressRunnable)
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                mediaPlayer.seekTo(seekBar!!.progress)
+                handler.postDelayed(updateProgressRunnable,1000L)
+                if (seekBar != null) {
+                    player.seekTo(seekBar.progress.toLong())
+                }
             }
 
         })
 
-        val handler:Handler?=null
-        handler?.postDelayed(object : Runnable{
-            override fun run() {
+        backBtn!!.setOnClickListener {
+            finish()
+        }
 
-                handler.postDelayed(this,1000)
+        forward!!.setOnClickListener {
+            player.seekTo(player.currentPosition + 10000)
+        }
+
+        rewind!!.setOnClickListener {
+            var x:Long = player.currentPosition - 10000
+            if (x<0){
+                player.seekTo(0)
             }
-        },1000)
+            player.seekTo(player.currentPosition - 10000)
+        }
 
-        pauseplay!!.setOnClickListener{
-            if (mediaPlayer.isPlaying) {
-                pauseplay!!.setBackgroundResource(R.drawable.play)
-                mediaPlayer.pause()
-            } else {
-                pauseplay!!.setBackgroundResource(R.drawable.pause)
-                mediaPlayer.start()
+        player.addListener(object : Player.Listener{
+            override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+                if (playbackState== Player.STATE_ENDED){
+                    nextB!!.performClick()
+                }
             }
-        }
-
-
-        prevB!!.setOnClickListener(){
-            pauseplay!!.setBackgroundResource(R.drawable.pause)
-            mediaPlayer.stop()
-            mediaPlayer.reset()
-            position = if((position!!-1)<0)
-                        (size-1)
-                       else
-                               (position!! -1)
-            val filepath = songsList!![position!!].musicPath
-            mediaPlayer.setDataSource(filepath)
-            songName= songsList!![position!!].musicName
-            title!!.text = songName
-            mediaPlayer.prepare()
-            mediaPlayer.start()
-        }
-
-        nextB!!.setOnClickListener(){
-            pauseplay!!.setBackgroundResource(R.drawable.pause)
-            mediaPlayer.stop()
-            mediaPlayer.reset()
-            position = if((position!!)<size-1)
-                (position!! +1)
-            else
-                0
-            val filepath = songsList!![position!!].musicPath
-            mediaPlayer.setDataSource(filepath)
-            songName= songsList!![position!!].musicName
-            title!!.text = songName
-            mediaPlayer.prepare()
-            mediaPlayer.start()
-        }
-
-
+        })
+        player.playWhenReady =true
+    }
+    override fun onStart() {
+        super.onStart()
+        player.playWhenReady = true
     }
 
-    override fun onBackPressed() {
-        if(mediaPlayer.isPlaying)
-        {
-            mediaPlayer.pause()
-        }
-        super.onBackPressed()
+    override fun onStop() {
+        super.onStop()
+        player.playWhenReady = false
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        player.release()
+    }
+
+    private fun updateSeekBar(){
+        val currentPosition= player.currentPosition
+        val totalDuration= player.duration
+        while (currentPosition<totalDuration){
+            try{
+                currentTime!!.text= Time(player.currentPosition.toInt())
+                totalTime!!.text = Time(player.duration.toInt())
+                seekBar!!.progress = currentPosition.toInt()
+            }catch (e:Exception)
+            {
+                e.printStackTrace()
+            }
+        }
+    }
     fun Time(duration:Int):String{
         var time :String=""
         var min = duration/1000/60
@@ -170,5 +202,4 @@ class musicActivity : AppCompatActivity() {
         time+=sec
         return time
     }
-
 }

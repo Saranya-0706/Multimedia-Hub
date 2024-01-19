@@ -51,10 +51,14 @@ class VideoAdapter(private var context: Context?, private var videoList:ArrayLis
             holder.durOnLayout?.text = currentVideo.Time(dur.toInt())
         }
 
-        holder.videoImage?.setOnClickListener{
+        holder.videoImage!!.setOnClickListener{
             val intent = Intent(context,videoActivity::class.java)
-              intent.putExtra("path",filepath)
-            intent.putExtra("name",FileName)
+              intent.putExtra("path",position)
+              intent.putExtra("name",FileName)
+              intent.putExtra("size",videoList.size)
+              intent.putExtra("filepath",filepath)
+              intent.putParcelableArrayListExtra("list", videoList)
+
             context!!.startActivity(intent)
         }
     }

@@ -1,18 +1,22 @@
 package com.example.woc_multimediahub
 
 import android.graphics.Bitmap
+import android.os.Parcel
+import android.os.Parcelable
 
-class video {
+class video():Parcelable {
     var videoPath:String?=null
     var videoName:String?=null
     var videoDuration:String?=null
 
+    constructor(parcel: Parcel) : this() {
+        videoPath = parcel.readString()
+        videoName = parcel.readString()
+        videoDuration = parcel.readString()
+    }
 
 
-    constructor()
-    {}
-
-    constructor(videoPath: String?, videoName: String?, videoDuration: String?) {
+    constructor(videoPath: String?, videoName: String?, videoDuration: String?) : this() {
         this.videoPath = videoPath
         this.videoName = videoName
         this.videoDuration = videoDuration
@@ -27,6 +31,26 @@ class video {
             time+="0"}
         time+=sec
         return time
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(videoPath)
+        parcel.writeString(videoName)
+        parcel.writeString(videoDuration)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<video> {
+        override fun createFromParcel(parcel: Parcel): video {
+            return video(parcel)
+        }
+
+        override fun newArray(size: Int): Array<video?> {
+            return arrayOfNulls(size)
+        }
     }
 
 }
