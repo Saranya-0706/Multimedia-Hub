@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
@@ -32,6 +33,7 @@ class musicActivity : AppCompatActivity() {
     private var songsList:ArrayList<music>?=null
     private var songName:String?=null
     private var seekBar:SeekBar?=null
+    private var duration:Int?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,16 +111,6 @@ class musicActivity : AppCompatActivity() {
                 player.play()
             }
 
-        val handler = Handler()
-        val updateProgressRunnable:Runnable = object :Runnable{
-            override fun run() {
-                updateSeekBar()
-                handler.postDelayed(this,1000L)
-            }
-
-        }
-        handler.postDelayed(updateProgressRunnable,1000L)
-        seekBar!!.max = player.duration.toInt()
 
         seekBar!!.setOnSeekBarChangeListener(object :SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -126,12 +118,10 @@ class musicActivity : AppCompatActivity() {
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                handler.removeCallbacks(updateProgressRunnable)
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                handler.postDelayed(updateProgressRunnable,1000L)
-                if (seekBar != null) {
+               if (seekBar != null) {
                     player.seekTo(seekBar.progress.toLong())
                 }
             }
@@ -160,6 +150,33 @@ class musicActivity : AppCompatActivity() {
                     nextB!!.performClick()
                 }
             }
+
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                duration = player.duration.toInt()
+                seekBar!!.max = duration!!
+                totalTime!!.text=Time(duration!!)
+            }
+
+            override fun onPositionDiscontinuity(
+                oldPosition: Player.PositionInfo,
+                newPosition: Player.PositionInfo,
+                reason: Int
+            ) {
+                var currentPosition = player.currentPosition.toInt()
+                seekBar!!.progress = currentPosition
+                currentTime?.text= Time(currentPosition)
+            }
+        })
+
+        var handler = Handler(Looper.getMainLooper())
+        handler.post(object :java.lang.Runnable{
+            override fun run() {
+                var currentPosition = player.currentPosition.toInt()
+                seekBar!!.progress = currentPosition
+                currentTime?.text= Time(currentPosition)
+                handler.postDelayed(this,1000L)
+            }
+
         })
         player.playWhenReady =true
     }
@@ -178,20 +195,6 @@ class musicActivity : AppCompatActivity() {
         player.release()
     }
 
-    private fun updateSeekBar(){
-        val currentPosition= player.currentPosition
-        val totalDuration= player.duration
-        while (currentPosition<totalDuration){
-            try{
-                currentTime!!.text= Time(player.currentPosition.toInt())
-                totalTime!!.text = Time(player.duration.toInt())
-                seekBar!!.progress = currentPosition.toInt()
-            }catch (e:Exception)
-            {
-                e.printStackTrace()
-            }
-        }
-    }
     fun Time(duration:Int):String{
         var time :String=""
         var min = duration/1000/60
