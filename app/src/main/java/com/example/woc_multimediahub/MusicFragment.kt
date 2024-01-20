@@ -1,5 +1,7 @@
 package com.example.woc_multimediahub
 
+import android.content.ContentUris
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
@@ -135,7 +137,7 @@ class MusicFragment : Fragment() {
         val musicfiles= ArrayList<music>()
         val allMusicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         val proj = arrayOf(
-            MediaStore.Audio.Media.TITLE,MediaStore.Audio.Media.DATA,MediaStore.Audio.Media.DURATION
+            MediaStore.Audio.Media.TITLE,MediaStore.Audio.Media.DATA,MediaStore.Audio.Media.DURATION,MediaStore.Audio.Media.ALBUM_ID
         )
         val cursor =
             this@MusicFragment.context?.contentResolver?.query(allMusicUri,proj,null,null,null)
@@ -149,6 +151,9 @@ class MusicFragment : Fragment() {
                     cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION))
                 music.musicName =
                     cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE))
+                val albumId :Long = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID).toLong()
+                music.artUri =
+                    ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"),albumId)
                 musicfiles.add(music)
             } while (cursor.moveToNext())
             cursor.close()

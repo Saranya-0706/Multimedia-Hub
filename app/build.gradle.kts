@@ -56,5 +56,5 @@ dependencies {
     implementation("androidx.media3:media3-exoplayer-dash:1.2.0")
     implementation("androidx.media3:media3-ui:1.2.0")
     implementation("com.github.barteksc:android-pdf-viewer:2.8.2")
-
+    implementation("com.gauravk.audiovisualizer:audiovisualizer:0.9.2")
 }

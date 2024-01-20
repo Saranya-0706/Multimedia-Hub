@@ -13,6 +13,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.woc_multimediahub.databinding.ActivityMusicBinding
+import com.gauravk.audiovisualizer.visualizer.BarVisualizer
 import kotlinx.coroutines.Runnable
 
 class musicActivity : AppCompatActivity() {
@@ -34,6 +35,7 @@ class musicActivity : AppCompatActivity() {
     private var songName:String?=null
     private var seekBar:SeekBar?=null
     private var duration:Int?=null
+    private lateinit var barVisualizer:BarVisualizer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +54,7 @@ class musicActivity : AppCompatActivity() {
         seekBar = binding.SeekBar
         currentTime=binding.currentPosition
         totalTime=binding.totalDuration
+        barVisualizer = binding.wave
         handler= Handler()
         player = ExoPlayer.Builder(this).build()
 
@@ -128,6 +131,11 @@ class musicActivity : AppCompatActivity() {
 
         })
 
+        var audioSessionId:Int= player.audioSessionId
+        if (audioSessionId != -1){
+            barVisualizer.setAudioSessionId(audioSessionId)
+        }
+
         backBtn!!.setOnClickListener {
             finish()
         }
@@ -192,6 +200,8 @@ class musicActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        if (barVisualizer != null)
+            barVisualizer.release()
         player.release()
     }
 

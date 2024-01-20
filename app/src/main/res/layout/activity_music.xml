@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".musicActivity">
+    tools:context=".musicActivity"
+    android:background="@color/bluee">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,7 +33,7 @@
             android:padding="20dp"
             android:singleLine="true"
             android:text="Title"
-            android:textColor="@color/bluee"
+            android:textColor="@color/black"
             android:textSize="22dp" />
 
 
@@ -62,7 +63,10 @@
             android:id="@+id/SeekBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-           android:layout_margin="15dp"/>
+            android:layout_margin="15dp"
+            android:progressTint="@color/black"
+            android:thumbTint="@color/black"
+            />
 
 
         <LinearLayout
@@ -118,8 +122,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/controls"
-                android:padding="25dp">
+               android:padding="25dp">
 
 
                 <ImageView
@@ -174,4 +177,16 @@
         </LinearLayout>
 
     </RelativeLayout>
+
+    <com.gauravk.audiovisualizer.visualizer.BarVisualizer
+        xmlns:custom="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/wave"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_alignParentBottom="true"
+        custom:avDensity="0.6"
+        custom:avType="fill"
+        custom:avColor="@color/black"
+        custom:avSpeed="normal"/>
+
 </RelativeLayout>

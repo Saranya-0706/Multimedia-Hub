@@ -62,13 +62,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Dexter.withContext(this).withPermissions(
                 Manifest.permission.READ_MEDIA_AUDIO,
                 Manifest.permission.READ_MEDIA_IMAGES,
-                Manifest.permission.READ_MEDIA_VIDEO
+                Manifest.permission.READ_MEDIA_VIDEO,
+                Manifest.permission.RECORD_AUDIO
             )
             .withListener(object : MultiplePermissionsListener{
                 override fun onPermissionsChecked(p0: MultiplePermissionsReport?) {
                     if (p0!!.areAllPermissionsGranted()){
-                        Toast.makeText(this@MainActivity, "Permissions Granted",Toast.LENGTH_SHORT).show()
-                        continueCode()
+                       continueCode()
                     }
                     else{
                         Toast.makeText(this@MainActivity,"Please grant all permissions...Close the app and start again",Toast.LENGTH_SHORT).show()
