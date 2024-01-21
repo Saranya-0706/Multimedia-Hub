@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.woc_multimediahub.databinding.ActivityMainBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.DexterBuilder
@@ -101,11 +102,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             true
         }
         fragmentManager= supportFragmentManager
+        replaceFragment(VideoFragment())
+        replaceFragment(MusicFragment())
+        replaceFragment(PdfFragment())
         replaceFragment(ImageFragment())
 
-        binding.fab.setOnClickListener {
-            Toast.makeText(this, "ADD", Toast.LENGTH_SHORT).show()}
-
+        val fab :FloatingActionButton = binding.fab
+        fab.setOnClickListener {
+            val intent = Intent(this@MainActivity,ChartActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

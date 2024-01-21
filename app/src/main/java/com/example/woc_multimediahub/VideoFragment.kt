@@ -83,6 +83,7 @@ class VideoFragment : Fragment() {
     private fun allVideos():ArrayList<video>?{
         val videofiles= ArrayList<video>()
         val allMusicUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+        var countVideo= 0
         val proj = arrayOf(
             MediaStore.Video.Media.TITLE, MediaStore.Video.Media.DATA, MediaStore.Video.Media.DURATION
         )
@@ -98,6 +99,7 @@ class VideoFragment : Fragment() {
                     cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION))
                 video.videoName =
                     cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.TITLE))
+                countVideo++
                 videofiles.add(video)
             } while (cursor.moveToNext())
             cursor.close()
@@ -106,6 +108,7 @@ class VideoFragment : Fragment() {
         {
             e.printStackTrace()
         }
+        ItemCount.CountManager.videoCount = countVideo
         return videofiles
 
     }

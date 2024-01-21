@@ -4,5 +4,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="Blue">#495BBF</color>
     <color name="bluee">#0DB8CD</color>
-    <color name="x">#693AB3</color>
+    <color name="textViewBackground">#FFFFFFFF</color>
+    <color name="textColor">#FF000000</color>
+    <color name="imageColor">#693AB3</color>
+    <color name="videoColor">#AC122A</color>
+    <color name="musicColor">#C59724</color>
+    <color name="pdfColor">#229E5A</color>
+
 </resources>

@@ -45,5 +45,4 @@ class MyAdapter( private var context: Context?, private var pdfList: ArrayList<p
         }
 
     }
-
 }

@@ -81,6 +81,7 @@ class ImageFragment : Fragment() {
 
     private fun allImages(): ArrayList<image>? {
           val images = ArrayList<image>()
+        var countImg :Int =0
           val allImgUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
           val proj = arrayOf(MediaStore.Images.ImageColumns.DATA,MediaStore.Images.Media.DISPLAY_NAME)
           val cursor =
@@ -92,6 +93,7 @@ class ImageFragment : Fragment() {
                 val image=image()
                 image.imagePath=cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
                 image.imageName=cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME))
+                countImg++
                 images.add(image)
             }while (cursor.moveToNext())
             cursor.close()
@@ -99,6 +101,7 @@ class ImageFragment : Fragment() {
         {
             e.printStackTrace()
         }
+        ItemCount.CountManager.imageCount =countImg
         return images
     }
 }

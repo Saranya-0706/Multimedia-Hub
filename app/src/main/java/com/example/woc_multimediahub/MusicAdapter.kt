@@ -24,7 +24,7 @@ class MusicAdapter(private var context:Context?, private var musicList:ArrayList
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicViewHolder {
        val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.music_layout,parent,false)
-        return MusicViewHolder(view)
+       return MusicViewHolder(view)
     }
     override fun getItemCount(): Int {
         return musicList.size
@@ -57,6 +57,4 @@ class MusicAdapter(private var context:Context?, private var musicList:ArrayList
 
         }
     }
-
-
-}
+    }

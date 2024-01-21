@@ -1,6 +1,7 @@
 package com.example.woc_multimediahub
 
 import android.content.ContentUris
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -136,6 +137,7 @@ class MusicFragment : Fragment() {
     private fun allMusic():ArrayList<music>?{
         val musicfiles= ArrayList<music>()
         val allMusicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+        var countMusic =  0
         val proj = arrayOf(
             MediaStore.Audio.Media.TITLE,MediaStore.Audio.Media.DATA,MediaStore.Audio.Media.DURATION,MediaStore.Audio.Media.ALBUM_ID
         )
@@ -154,7 +156,9 @@ class MusicFragment : Fragment() {
                 val albumId :Long = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID).toLong()
                 music.artUri =
                     ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"),albumId)
+                countMusic++
                 musicfiles.add(music)
+
             } while (cursor.moveToNext())
             cursor.close()
         }
@@ -162,7 +166,10 @@ class MusicFragment : Fragment() {
             {
                 e.printStackTrace()
             }
+        ItemCount.CountManager.musicCount = countMusic
+
             return musicfiles
+
 
     }
 }

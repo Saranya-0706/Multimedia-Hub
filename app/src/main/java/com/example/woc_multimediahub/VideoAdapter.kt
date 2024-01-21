@@ -13,6 +13,7 @@ import com.bumptech.glide.request.RequestOptions
 
 class VideoAdapter(private var context: Context?, private var videoList:ArrayList<video>) :
     RecyclerView.Adapter<VideoAdapter.VideoViewHolder>() {
+
         class VideoViewHolder(itemView:View):RecyclerView.ViewHolder(itemView){
             var videoImage:ImageView?=null
             var durOnLayout:TextView?=null
