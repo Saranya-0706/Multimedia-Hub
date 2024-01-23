@@ -101,11 +101,14 @@ class PdfFragment : Fragment(R.layout.fragment_pdf) {
         private fun pdffiles():ArrayList<pdf>? {
             val pdfFiles = ArrayList<pdf>()
             var countPdf = 0
+            var pdfSize:Float = 0F
+            var tSize:Float = 0F
             val allFilesUri = MediaStore.Files.getContentUri("external")
             val proj =
                 arrayOf(
                     MediaStore.Files.FileColumns.DATA,
-                    MediaStore.Files.FileColumns.DISPLAY_NAME
+                    MediaStore.Files.FileColumns.DISPLAY_NAME,
+                    MediaStore.Files.FileColumns.SIZE
                 )
             val mime = MediaStore.Files.FileColumns.MIME_TYPE + "=?"
             val mimetype = MimeTypeMap.getSingleton().getMimeTypeFromExtension("pdf")
@@ -120,6 +123,8 @@ class PdfFragment : Fragment(R.layout.fragment_pdf) {
                     val file= pdf()
                     file.pdfPath=cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATA))
                     file.pdfName=cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DISPLAY_NAME))
+                    pdfSize = cursor.getFloat(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.SIZE))
+                    tSize += pdfSize
                     countPdf++
                     pdfFiles.add(file)
                 }while (cursor.moveToNext())
@@ -130,6 +135,7 @@ class PdfFragment : Fragment(R.layout.fragment_pdf) {
             }
 
             ItemCount.CountManager.pdfCount = countPdf
+            ItemCount.FileSize.pdfSize = tSize
             return pdfFiles
         }
 

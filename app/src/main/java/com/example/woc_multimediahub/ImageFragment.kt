@@ -82,8 +82,10 @@ class ImageFragment : Fragment() {
     private fun allImages(): ArrayList<image>? {
           val images = ArrayList<image>()
         var countImg :Int =0
+        var imgSize :Float = 0F
+        var totalSize:Float = 0F
           val allImgUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-          val proj = arrayOf(MediaStore.Images.ImageColumns.DATA,MediaStore.Images.Media.DISPLAY_NAME)
+          val proj = arrayOf(MediaStore.Images.ImageColumns.DATA,MediaStore.Images.Media.DISPLAY_NAME,MediaStore.Images.Media.SIZE)
           val cursor =
               this@ImageFragment.context?.contentResolver?.query(allImgUri,proj,null,null,null)
 
@@ -93,7 +95,9 @@ class ImageFragment : Fragment() {
                 val image=image()
                 image.imagePath=cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
                 image.imageName=cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME))
+                imgSize = cursor.getFloat(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE))
                 countImg++
+                totalSize += imgSize
                 images.add(image)
             }while (cursor.moveToNext())
             cursor.close()
@@ -102,6 +106,7 @@ class ImageFragment : Fragment() {
             e.printStackTrace()
         }
         ItemCount.CountManager.imageCount =countImg
+        ItemCount.FileSize.imageSize = totalSize
         return images
     }
 }

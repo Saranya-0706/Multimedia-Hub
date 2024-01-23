@@ -13,7 +13,6 @@ class imageActivity : AppCompatActivity() {
         val imagePath=intent.getStringExtra("path")
         val imageName=intent.getStringExtra("name")
 
-        supportActionBar?.setTitle(imageName)
         Glide.with(this)
             .load(imagePath)
             .into(findViewById(R.id.imageView))

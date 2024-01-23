@@ -1,10 +1,13 @@
 package com.example.woc_multimediahub
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +24,11 @@ class StorageFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private var imgS :TextView?=null
+    private var vidS :TextView?=null
+    private var mscS :TextView?=null
+    private var pdfS :TextView?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -29,6 +37,30 @@ class StorageFragment : Fragment() {
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        imgS = view.findViewById(R.id.imageSize)
+        vidS = view.findViewById(R.id.videoSize)
+        mscS = view.findViewById(R.id.musicSize)
+        pdfS = view.findViewById(R.id.pdfSize)
+
+        imgS?.text = conv(ItemCount.FileSize.imageSize)
+        vidS?.text= conv(ItemCount.FileSize.videoSize)
+        mscS?.text= conv(ItemCount.FileSize.musicSize)
+        pdfS?.text= conv(ItemCount.FileSize.pdfSize)
+
+    }
+
+    private fun conv(a :Float):String
+    {
+        if (a < 1000*1000*1000) {
+            return String.format("%.2f  MB", a/(1000*1000))
+        } else{
+            return String.format("%.2f  GB", a/(1000*1000*1000))
+        }
+
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

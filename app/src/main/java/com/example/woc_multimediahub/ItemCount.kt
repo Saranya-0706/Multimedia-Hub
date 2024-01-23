@@ -13,5 +13,9 @@ class ItemCount {
 
     object FileSize{
 
+        var imageSize: Float = 0F
+        var videoSize: Float = 0F
+        var musicSize: Float = 0F
+        var pdfSize: Float = 0F
     }
 }

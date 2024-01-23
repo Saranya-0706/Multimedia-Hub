@@ -84,8 +84,10 @@ class VideoFragment : Fragment() {
         val videofiles= ArrayList<video>()
         val allMusicUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
         var countVideo= 0
+        var videoSize :Float = 0F
+        var totalSize:Float = 0F
         val proj = arrayOf(
-            MediaStore.Video.Media.TITLE, MediaStore.Video.Media.DATA, MediaStore.Video.Media.DURATION
+            MediaStore.Video.Media.TITLE, MediaStore.Video.Media.DATA, MediaStore.Video.Media.DURATION , MediaStore.Video.Media.SIZE
         )
         val cursor =
             this@VideoFragment.context?.contentResolver?.query(allMusicUri,proj,null,null,null)
@@ -99,6 +101,8 @@ class VideoFragment : Fragment() {
                     cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION))
                 video.videoName =
                     cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.TITLE))
+                videoSize = cursor.getFloat(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.SIZE))
+                totalSize += videoSize
                 countVideo++
                 videofiles.add(video)
             } while (cursor.moveToNext())
@@ -109,6 +113,7 @@ class VideoFragment : Fragment() {
             e.printStackTrace()
         }
         ItemCount.CountManager.videoCount = countVideo
+        ItemCount.FileSize.videoSize = totalSize
         return videofiles
 
     }
