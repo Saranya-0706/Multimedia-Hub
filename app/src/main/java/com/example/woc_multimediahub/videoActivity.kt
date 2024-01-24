@@ -79,19 +79,19 @@ class videoActivity : AppCompatActivity() {
 
        pauseplay!!.setOnClickListener {
            if (player.isPlaying){
-               pauseplay!!.setBackgroundResource(R.drawable.play)
+               pauseplay!!.setImageResource(R.drawable.play)
                player.pause()
 
 
            }
            else {
-               pauseplay!!.setBackgroundResource(R.drawable.pause)
+               pauseplay!!.setImageResource(R.drawable.pause)
                player.play()
            }
        }
 
         nextVideo!!.setOnClickListener {
-            pauseplay!!.setBackgroundResource(R.drawable.pause)
+            pauseplay!!.setImageResource(R.drawable.pause)
             player.stop()
             path = if((path!!)<size-1)
                 (path!! +1)
@@ -105,7 +105,7 @@ class videoActivity : AppCompatActivity() {
         }
 
         prevVideo!!.setOnClickListener {
-            pauseplay!!.setBackgroundResource(R.drawable.pause)
+            pauseplay!!.setImageResource(R.drawable.pause)
             player.stop()
             path = if((path!!-1)<0)
                 (size-1)

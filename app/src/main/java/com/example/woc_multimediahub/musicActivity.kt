@@ -75,17 +75,17 @@ class musicActivity : AppCompatActivity() {
 
             pauseplay!!.setOnClickListener {
                 if (player.isPlaying) {
-                    pauseplay!!.setBackgroundResource(R.drawable.playblack)
+                    pauseplay!!.setImageResource(R.drawable.playblack)
                     player.pause()
                 } else {
-                    pauseplay!!.setBackgroundResource(R.drawable.pauseblack)
+                    pauseplay!!.setImageResource(R.drawable.pauseblack)
                     player.play()
                 }
             }
 
 
             prevB!!.setOnClickListener{
-                pauseplay!!.setBackgroundResource(R.drawable.pauseblack)
+                pauseplay!!.setImageResource(R.drawable.pauseblack)
                 player.stop()
                 position = if ((position!! - 1) < 0)
                     (size - 1)
@@ -100,7 +100,7 @@ class musicActivity : AppCompatActivity() {
             }
 
             nextB!!.setOnClickListener{
-                pauseplay!!.setBackgroundResource(R.drawable.pauseblack)
+                pauseplay!!.setImageResource(R.drawable.pauseblack)
                 player.stop()
                position = if ((position!!) < size - 1)
                     (position!! + 1)

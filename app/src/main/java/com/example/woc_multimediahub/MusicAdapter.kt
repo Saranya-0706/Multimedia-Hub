@@ -17,7 +17,7 @@ class MusicAdapter(private var context:Context?, private var musicList:ArrayList
             var musicIcon:ImageView?=null
             init{
                 musicFileName=itemView.findViewById(R.id.music_title)
-                musicIcon = itemView.findViewById(R.id.music_icon)
+                musicIcon = itemView.findViewById(R.id.music_logo)
             }
         }
 

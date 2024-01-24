@@ -44,10 +44,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val toggle = ActionBarDrawerToggle(this, binding.DrawerLayout,R.string.nav_open,R.string.nav_close )
-        binding.DrawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-
         binding.navDrawer.setNavigationItemSelectedListener(this)
         runTimePermissions()
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.R){

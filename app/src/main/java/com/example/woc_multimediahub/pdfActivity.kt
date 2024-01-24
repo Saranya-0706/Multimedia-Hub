@@ -6,6 +6,7 @@ import com.example.woc_multimediahub.R.*
 import com.example.woc_multimediahub.databinding.ActivityPdfBinding
 import com.example.woc_multimediahub.databinding.ActivityVideoBinding
 import com.github.barteksc.pdfviewer.PDFView
+import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle
 import java.io.File
 
 class pdfActivity : AppCompatActivity() {
@@ -25,6 +26,8 @@ class pdfActivity : AppCompatActivity() {
             .enableSwipe(true)
             .enableDoubletap(true)
             .defaultPage(0)
+            .scrollHandle(DefaultScrollHandle(this))
+            .spacing(10)
             .load()
 
     }
