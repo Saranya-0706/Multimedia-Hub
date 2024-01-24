@@ -141,7 +141,7 @@ class MusicFragment : Fragment() {
         var musicSize :Float = 0F
         var totalSize :Float = 0F
         val proj = arrayOf(
-            MediaStore.Audio.Media.TITLE,MediaStore.Audio.Media.DATA,MediaStore.Audio.Media.DURATION,MediaStore.Audio.Media.ALBUM_ID,MediaStore.Audio.Media.SIZE
+            MediaStore.Audio.Media.TITLE,MediaStore.Audio.Media.DATA,MediaStore.Audio.Media.DURATION,MediaStore.Audio.Media.SIZE
         )
         val cursor =
             this@MusicFragment.context?.contentResolver?.query(allMusicUri,proj,null,null,null)
@@ -155,9 +155,7 @@ class MusicFragment : Fragment() {
                     cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION))
                 music.musicName =
                     cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE))
-                val albumId :Long = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID).toLong()
-                music.artUri =
-                    ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"),albumId)
+
 
                 musicSize = cursor.getFloat(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE))
                 totalSize += musicSize

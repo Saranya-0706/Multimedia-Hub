@@ -9,21 +9,18 @@ class music() : Parcelable{
     var musicPath:String?=null
     var musicName:String?=null
     var musicDuration:String?=null
-    var artUri :Uri?=null
 
     constructor(parcel: Parcel) : this() {
         musicPath = parcel.readString()
         musicName = parcel.readString()
         musicDuration = parcel.readString()
-        artUri = parcel.readParcelable(Uri::class.java.classLoader)
     }
 
 
-    constructor(musicPath: String?, musicName: String?, musicDuration: String?, artUri: Uri?) : this() {
+    constructor(musicPath: String?, musicName: String?, musicDuration: String?) : this() {
         this.musicPath = musicPath
         this.musicName = musicName
         this.musicDuration = musicDuration
-        this.artUri = artUri
     }
 
 
@@ -31,8 +28,7 @@ class music() : Parcelable{
         parcel.writeString(musicPath)
         parcel.writeString(musicName)
         parcel.writeString(musicDuration)
-        parcel.writeParcelable(artUri, flags)
-    }
+   }
 
     override fun describeContents(): Int {
         return 0

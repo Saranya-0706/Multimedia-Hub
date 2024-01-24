@@ -14,10 +14,8 @@ class MusicAdapter(private var context:Context?, private var musicList:ArrayList
 
         class MusicViewHolder(itemView:View):RecyclerView.ViewHolder(itemView){
             var musicFileName:TextView?=null
-            var musicIcon:ImageView?=null
             init{
                 musicFileName=itemView.findViewById(R.id.music_title)
-                musicIcon = itemView.findViewById(R.id.music_logo)
             }
         }
 
@@ -34,15 +32,8 @@ class MusicAdapter(private var context:Context?, private var musicList:ArrayList
         val currentMusic = musicList[position]
         val FileName = currentMusic.musicName
         val dur = currentMusic.musicDuration
-        val artworkUri = currentMusic.artUri
         holder.musicFileName?.text = FileName
-        if (artworkUri!= null){
-            holder.musicIcon?.setImageURI(artworkUri)
-            if (holder.musicIcon?.drawable==null){
 
-                holder.musicIcon?.setImageResource(R.drawable.music_note_2_svgrepo_com)
-            }
-        }
 
 
         holder.musicFileName!!.setOnClickListener {
