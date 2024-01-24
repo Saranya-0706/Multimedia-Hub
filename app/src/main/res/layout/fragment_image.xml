@@ -9,7 +9,8 @@
         android:id="@+id/recycler_images"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/images_layout">
+        tools:listitem="@layout/images_layout"
+        android:layout_margin="3dp">
 
     </androidx.recyclerview.widget.RecyclerView>
 
