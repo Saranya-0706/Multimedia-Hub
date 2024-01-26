@@ -20,22 +20,11 @@ class musicActivity : AppCompatActivity() {
 
     private lateinit var player: ExoPlayer
     private lateinit var handler:Handler
-    private var title:TextView?=null
-    private var backBtn:ImageView?=null
-    private var pauseplay:ImageView?=null
-    private var nextB:ImageView?=null
-    private var prevB:ImageView?=null
-    private var musicIcon:ImageView?=null
-    private var forward: ImageView?=null
-    private var rewind: ImageView?=null
-    private var currentTime:TextView?=null
-    private var totalTime:TextView?=null
     private lateinit var binding: ActivityMusicBinding
     private var songsList:ArrayList<music>?=null
     private var songName:String?=null
     private var seekBar:SeekBar?=null
     private var duration:Int?=null
-    private lateinit var barVisualizer:BarVisualizer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,25 +32,14 @@ class musicActivity : AppCompatActivity() {
         binding = ActivityMusicBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        title = binding.songTitle
-        backBtn= binding.AudioBack
-        pauseplay = binding.pauseplayAudio
-        nextB = binding.nextAudio
-        prevB = binding.prevAudio
-        musicIcon = binding.musicIcon
-        forward = binding.ForwardAudio
-        rewind = binding.RewindAudio
         seekBar = binding.SeekBar
-        currentTime=binding.currentPosition
-        totalTime=binding.totalDuration
-        barVisualizer = binding.wave
         handler= Handler()
         player = ExoPlayer.Builder(this).build()
 
 
         songsList = intent.getParcelableArrayListExtra("list")
         songName = intent.getStringExtra("songname")
-        title!!.text = songName
+        binding.songTitle.text = songName
 
         var position = intent.getIntExtra("path", 0)
         val size = intent.getIntExtra("size", 101)
@@ -73,41 +51,41 @@ class musicActivity : AppCompatActivity() {
         player.play()
 
 
-            pauseplay!!.setOnClickListener {
+            binding.pauseplayAudio.setOnClickListener {
                 if (player.isPlaying) {
-                    pauseplay!!.setImageResource(R.drawable.playblack)
+                    binding.pauseplayAudio.setImageResource(R.drawable.playblack)
                     player.pause()
                 } else {
-                    pauseplay!!.setImageResource(R.drawable.pauseblack)
+                    binding.pauseplayAudio.setImageResource(R.drawable.pauseblack)
                     player.play()
                 }
             }
 
 
-            prevB!!.setOnClickListener{
-                pauseplay!!.setImageResource(R.drawable.pauseblack)
+        binding.prevAudio.setOnClickListener{
+                binding.pauseplayAudio.setImageResource(R.drawable.pauseblack)
                 player.stop()
                 position = if ((position!! - 1) < 0)
                     (size - 1)
                 else
                     (position!! - 1)
                 val filePath = songsList!![position].musicPath
-                title!!.text= songsList!![position].musicName
+                binding.songTitle.text= songsList!![position].musicName
                 val MediaItem = androidx.media3.common.MediaItem.fromUri(filePath!!)
                 player.setMediaItem(MediaItem)
                 player.prepare()
                 player.play()
             }
 
-            nextB!!.setOnClickListener{
-                pauseplay!!.setImageResource(R.drawable.pauseblack)
+            binding.nextAudio.setOnClickListener{
+                binding.pauseplayAudio.setImageResource(R.drawable.pauseblack)
                 player.stop()
                position = if ((position!!) < size - 1)
                     (position!! + 1)
                 else
                     0
                 val filePath = songsList!![position].musicPath
-                title!!.text= songsList!![position].musicName
+                binding.songTitle.text= songsList!![position].musicName
                 val MediaItem = androidx.media3.common.MediaItem.fromUri(filePath!!)
                 player.setMediaItem(MediaItem)
                 player.prepare()
@@ -133,18 +111,18 @@ class musicActivity : AppCompatActivity() {
 
         var audioSessionId:Int= player.audioSessionId
         if (audioSessionId != -1){
-            barVisualizer.setAudioSessionId(audioSessionId)
+            binding.wave.setAudioSessionId(audioSessionId)
         }
 
-        backBtn!!.setOnClickListener {
+        binding.AudioBack.setOnClickListener {
             finish()
         }
 
-        forward!!.setOnClickListener {
+        binding.ForwardAudio.setOnClickListener {
             player.seekTo(player.currentPosition + 10000)
         }
 
-        rewind!!.setOnClickListener {
+        binding.RewindAudio.setOnClickListener {
             var x:Long = player.currentPosition - 10000
             if (x<0){
                 player.seekTo(0)
@@ -155,14 +133,14 @@ class musicActivity : AppCompatActivity() {
         player.addListener(object : Player.Listener{
             override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
                 if (playbackState== Player.STATE_ENDED){
-                    nextB!!.performClick()
+                    binding.nextAudio.performClick()
                 }
             }
 
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 duration = player.duration.toInt()
                 seekBar!!.max = duration!!
-                totalTime!!.text=Time(duration!!)
+                binding.totalDuration.text=Time(duration!!)
             }
 
             override fun onPositionDiscontinuity(
@@ -172,7 +150,7 @@ class musicActivity : AppCompatActivity() {
             ) {
                 var currentPosition = player.currentPosition.toInt()
                 seekBar!!.progress = currentPosition
-                currentTime?.text= Time(currentPosition)
+                binding.currentPosition.text= Time(currentPosition)
             }
         })
 
@@ -181,7 +159,7 @@ class musicActivity : AppCompatActivity() {
             override fun run() {
                 var currentPosition = player.currentPosition.toInt()
                 seekBar!!.progress = currentPosition
-                currentTime?.text= Time(currentPosition)
+                binding.currentPosition.text= Time(currentPosition)
                 handler.postDelayed(this,1000L)
             }
 
@@ -200,8 +178,8 @@ class musicActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (barVisualizer != null)
-            barVisualizer.release()
+        if (binding.wave != null)
+            binding.wave.release()
         player.release()
     }
 
